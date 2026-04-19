@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JAYA JAYANTI | Full-Stack Developer & Creative Technologist</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="container">
+            <div class="nav-brand">
+                <span class="brand-icon">🚀</span>
+                <span>JAYA JAYANTI</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section with Animated Background -->
+    <section id="home" class="hero">
+        <canvas id="particleCanvas"></canvas>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">✨</span>
+                    <span>Available for work</span>
+                </div>
+                <h1 class="glow-text">Hi, I'm JAYA <span class="highlight"></span></h1>
+                <h2>That Leave a Mark</h2>
+                <div class="typed-container">
+                    <p>I am <span id="typed-text"></span><span class="cursor-blink">|</span></p>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-arrow-down"></i> View My Work
+                    </a>
+                    <a href="#contact" class="btn btn-outline">
+                        <i class="fas fa-paper-plane"></i> Hire Me
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>2+</h3>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="stat">
+                        <h3>15+</h3>
+                        <p>Projects Completed</p>
+                    </div>
+                    <div class="stat">
+                        <h3>10+</h3>
+                        <p>Happy Clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+            <p>Scroll Down</p>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">What I Do</span>
+                <h2 class="section-title">My <span class="highlight">Skills</span></h2>
+                <p class="section-subtitle">Technologies and tools I work with</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-js"></i></div>
+                    <h3>JavaScript/Node.js</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="85"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-python"></i></div>
+                    <h3>Python</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="80"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-database"></i></div>
+                    <h3>MySQL/PostgreSQL</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="75"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-react"></i></div>
+                    <h3>React.js</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="70"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                    <h3>HTML/CSS</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="90"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                    <h3>Git/GitHub</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" data-progress="85"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section with Filter -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">My Portfolio</span>
+                <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
+                <p class="section-subtitle">Some of my best work</p>
+            </div>
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="web">Web Apps</button>
+                <button class="filter-btn" data-filter="backend">Backend</button>
+                <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading amazing projects...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section with 3D Card -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="section-header">
+                        <span class="section-tag">Get In Touch</span>
+                        <h2 class="section-title">Let's Work <span class="highlight">Together</span></h2>
+                    </div>
+                    <p class="contact-desc">Have a project in mind? I'd love to hear about it. Let's create something amazing!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email Me</h4>
+                                <p>jayajayanti3883@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <div>
+                                <h4>GitHub</h4>
+                                 <p>github.com/JAYA3883</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <div>
+                                <h4>LinkedIn</h4>
+                                <p>linkedin.com/in/jaya-jayanti03</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                        <div id="formMessage" class="form-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>JAYA JAYANTI</h3>
+                    <p>Full-Stack Developer</p>
+                </div>
+                <div class="footer-social">
+    <a href="https://github.com/JAYA3883" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://linkedin.com/in/jayajayanti" target="_blank"><i class="fab fa-linkedin"></i></a>
+    <a href="https://twitter.com/jayajayanti" target="_blank"><i class="fab fa-twitter"></i></a>
+    <a href="https://instagram.com/jayajayanti" target="_blank"><i class="fab fa-instagram"></i></a>
+</div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 JAYA JAYANTI. Built with <i class="fas fa-heart"></i> using Node.js, Express & MySQL</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
