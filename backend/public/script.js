@@ -248,58 +248,56 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========== PARTICLE BACKGROUND ==========
+// Enhanced Starry Background with Twinkling Stars
 const canvas = document.getElementById('particleCanvas');
 if (canvas) {
     const ctx = canvas.getContext('2d');
-    let particles = [];
+    let stars = [];
     
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     
-    function createParticles() {
-        const particleCount = 80;
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
+    function createStars() {
+        const starCount = 200;
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.3,
-                speedY: (Math.random() - 0.5) * 0.3,
-                opacity: Math.random() * 0.4 + 0.1
+                alpha: Math.random(),
+                alphaChange: (Math.random() * 0.02) + 0.005
             });
         }
     }
     
-    function animateParticles() {
+    function animateStars() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        particles.forEach(particle => {
-            particle.x += particle.speedX;
-            particle.y += particle.speedY;
-            
-            if (particle.x < 0) particle.x = canvas.width;
-            if (particle.x > canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = canvas.height;
-            if (particle.y > canvas.height) particle.y = 0;
+        stars.forEach(star => {
+            // Twinkling effect
+            star.alpha += star.alphaChange;
+            if (star.alpha >= 1 || star.alpha <= 0.2) {
+                star.alphaChange *= -1;
+            }
             
             ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(102, 126, 234, ${particle.opacity})`;
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
             ctx.fill();
         });
         
-        requestAnimationFrame(animateParticles);
+        requestAnimationFrame(animateStars);
     }
     
     window.addEventListener('resize', () => {
         resizeCanvas();
-        particles = [];
-        createParticles();
+        stars = [];
+        createStars();
     });
     
     resizeCanvas();
-    createParticles();
-    animateParticles();
+    createStars();
+    animateStars();
 }
