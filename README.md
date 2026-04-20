@@ -18,8 +18,3 @@ This is my personal portfolio website showcasing my projects and skills as a Ful
 - Responsive design with animations
 - Particle background and custom cursor effects
 
-## 🏃‍♂️ How to Run Locally
-
-1. Clone the repository
-```bash
-git clone https://github.com/JAYA3883/my-portfolio.git
