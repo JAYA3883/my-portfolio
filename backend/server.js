@@ -28,21 +28,10 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'Server is running!', timestamp: new Date() });
 });
 
-// Start the server
-const startServer = async () => {
-    // First, test if database connection works
-    const dbConnected = await testConnection();
-    
-    if (dbConnected) {
-        app.listen(PORT, () => {
-            console.log(`\n🚀 Server is running!`);
-            console.log(`📁 Frontend available at: http://localhost:${PORT}`);
-            console.log(`🔌 API available at: http://localhost:${PORT}/api/health`);
-        });
-    } else {
-        console.log('\n❌ Cannot start server: Database connection failed');
-        console.log('Make sure MySQL is running and credentials are correct');
-    }
-};
+// Start server without database requirement
+app.listen(PORT, () => {
+    console.log(`\n🚀 Server is running!`);
+    console.log(`📁 Frontend available at: http://localhost:${PORT}`);
+});
 
 startServer();

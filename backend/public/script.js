@@ -1,6 +1,118 @@
-// script.js - Complete Enhanced Portfolio with all features
+// script.js - Portfolio with hardcoded projects (no database needed)
 
-const API_URL = 'http://localhost:5000/api';
+// ========== PROJECTS (Hardcoded - No Database Required) ==========
+const projects = [
+    {
+        title: "My Portfolio Website",
+        description: "A beautiful personal portfolio website built with Node.js, Express, and modern HTML/CSS.",
+        image_url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
+        project_url: "https://github.com/JAYA3883/my-portfolio"
+    },
+    {
+        title: "Weather App",
+        description: "Check weather in any city using OpenWeatherMap API. Built with JavaScript and API integration.",
+        image_url: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=500",
+        project_url: "https://github.com/JAYA3883/weather-app"
+    },
+    {
+        title: "Task Manager",
+        description: "Keep track of your daily tasks with this simple and elegant task management app.",
+        image_url: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500",
+        project_url: "https://github.com/JAYA3883/task-manager"
+    },
+    {
+        title: "E-commerce Dashboard",
+        description: "Admin dashboard for managing products, orders, and customers.",
+        image_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500",
+        project_url: "https://github.com/JAYA3883/ecommerce-dashboard"
+    },
+    {
+        title: "Chat Application",
+        description: "Real-time chat app using WebSockets. Perfect for team communication.",
+        image_url: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500",
+        project_url: "https://github.com/JAYA3883/chat-app"
+    },
+    {
+        title: "Blog Platform",
+        description: "Full-featured blog with comments, categories, and user authentication.",
+        image_url: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500",
+        project_url: "https://github.com/JAYA3883/blog-platform"
+    }
+];
+
+// ========== DISPLAY PROJECTS ==========
+function displayProjects() {
+    const projectsGrid = document.getElementById('projectsGrid');
+    
+    if (!projectsGrid) return;
+    
+    projectsGrid.innerHTML = '';
+    
+    projects.forEach((project, index) => {
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card';
+        projectCard.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s backwards`;
+        projectCard.innerHTML = `
+            <img src="${project.image_url}" alt="${project.title}">
+            <h3>${project.title}</h3>
+            <p>${project.description}</p>
+            <a href="${project.project_url}" class="project-link" target="_blank">
+                View Project <i class="fas fa-arrow-right"></i>
+            </a>
+        `;
+        projectsGrid.appendChild(projectCard);
+    });
+}
+
+// ========== HANDLE CONTACT FORM (Stores in localStorage for now) ==========
+async function handleContactSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const formMessage = document.getElementById('formMessage');
+    
+    const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value,
+        date: new Date().toLocaleString()
+    };
+    
+    // Validate
+    if (!formData.name || !formData.email || !formData.message) {
+        showMessage(formMessage, 'Please fill in all fields!', 'error');
+        return;
+    }
+    
+    // Disable button
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    
+    // Simulate sending (store in localStorage for demo)
+    setTimeout(() => {
+        // Save to localStorage
+        let messages = JSON.parse(localStorage.getItem('portfolio_messages') || '[]');
+        messages.push(formData);
+        localStorage.setItem('portfolio_messages', JSON.stringify(messages));
+        
+        showMessage(formMessage, 'Message sent successfully! I will get back to you soon.', 'success');
+        form.reset();
+        
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }, 1000);
+}
+
+function showMessage(element, message, type) {
+    element.className = `form-message ${type}`;
+    element.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+    
+    setTimeout(() => {
+        element.className = '';
+        element.innerHTML = '';
+    }, 5000);
+}
 
 // ========== CUSTOM CURSOR ==========
 const cursor = document.querySelector('.cursor');
@@ -29,7 +141,7 @@ if (cursor && cursorFollower) {
     });
 }
 
-// ========== MOBILE MENU TOGGLE ==========
+// ========== MOBILE MENU ==========
 const menuBtn = document.querySelector('.menu-btn');
 const navLinks = document.querySelector('.nav-links');
 
@@ -37,92 +149,6 @@ if (menuBtn) {
     menuBtn.addEventListener('click', () => {
         navLinks.classList.toggle('active');
     });
-}
-
-// Close menu when clicking a link
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-    });
-});
-
-// ========== ACTIVE NAVIGATION LINK ==========
-const sections = document.querySelectorAll('section');
-const navItems = document.querySelectorAll('.nav-links a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navItems.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// ========== PARTICLE BACKGROUND ==========
-const canvas = document.getElementById('particleCanvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    
-    function createParticles() {
-        const particleCount = 100;
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                opacity: Math.random() * 0.5 + 0.2
-            });
-        }
-    }
-    
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            particle.x += particle.speedX;
-            particle.y += particle.speedY;
-            
-            if (particle.x < 0) particle.x = canvas.width;
-            if (particle.x > canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = canvas.height;
-            if (particle.y > canvas.height) particle.y = 0;
-            
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(102, 126, 234, ${particle.opacity})`;
-            ctx.fill();
-        });
-        
-        requestAnimationFrame(animateParticles);
-    }
-    
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        particles = [];
-        createParticles();
-    });
-    
-    resizeCanvas();
-    createParticles();
-    animateParticles();
 }
 
 // ========== TYPING ANIMATION ==========
@@ -162,7 +188,7 @@ if (typedElement) {
     typeEffect();
 }
 
-// ========== SKILL BARS ANIMATION ==========
+// ========== SKILL BARS ==========
 function animateSkillBars() {
     const skillBars = document.querySelectorAll('.skill-progress');
     skillBars.forEach(bar => {
@@ -171,7 +197,7 @@ function animateSkillBars() {
     });
 }
 
-// ========== SCROLL REVEAL ANIMATION ==========
+// ========== SCROLL REVEAL ==========
 function revealOnScroll() {
     const reveals = document.querySelectorAll('.skill-card, .project-card, .contact-item');
     
@@ -194,133 +220,6 @@ document.querySelectorAll('.skill-card, .project-card, .contact-item').forEach(e
     el.style.transition = 'all 0.6s ease-out';
 });
 
-// ========== PROJECT FILTERS ==========
-let allProjects = [];
-
-function setupFilters(projects) {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    allProjects = projects;
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const filter = btn.getAttribute('data-filter');
-            
-            // For demo purposes, show all projects
-            // You can enhance this to filter by category later
-            displayProjects(allProjects);
-        });
-    });
-}
-
-// ========== LOAD PROJECTS FROM DATABASE ==========
-async function loadProjects() {
-    const projectsGrid = document.getElementById('projectsGrid');
-    
-    try {
-        const response = await fetch(`${API_URL}/projects`);
-        const data = await response.json();
-        
-        if (data.success && data.projects.length > 0) {
-            displayProjects(data.projects);
-            setupFilters(data.projects);
-        } else {
-            projectsGrid.innerHTML = '<div class="loading">✨ No projects yet. Add some to your database!</div>';
-        }
-    } catch (error) {
-        console.error('Error loading projects:', error);
-        projectsGrid.innerHTML = '<div class="loading">⚠️ Error loading projects. Make sure your backend is running!</div>';
-    }
-}
-
-function displayProjects(projects) {
-    const projectsGrid = document.getElementById('projectsGrid');
-    projectsGrid.innerHTML = '';
-    
-    projects.forEach((project, index) => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
-        projectCard.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s backwards`;
-        projectCard.innerHTML = `
-            <img src="${project.image_url || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500'}" alt="${project.title}">
-            <h3>${project.title}</h3>
-            <p>${project.description || 'An amazing project built with modern technologies.'}</p>
-            <a href="${project.project_url || '#'}" class="project-link" target="_blank">
-                View Project <i class="fas fa-arrow-right"></i>
-            </a>
-        `;
-        projectsGrid.appendChild(projectCard);
-    });
-}
-
-// ========== HANDLE CONTACT FORM SUBMISSION ==========
-async function handleContactSubmit(event) {
-    event.preventDefault();
-    
-    const form = event.target;
-    const submitButton = form.querySelector('button[type="submit"]');
-    const formMessage = document.getElementById('formMessage');
-    
-    // Get form data
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    };
-    
-    // Validate
-    if (!formData.name || !formData.email || !formData.message) {
-        formMessage.className = 'form-message error';
-        formMessage.textContent = 'Please fill in all fields!';
-        setTimeout(() => {
-            formMessage.className = '';
-            formMessage.textContent = '';
-        }, 3000);
-        return;
-    }
-    
-    // Disable button while sending
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    
-    try {
-        const response = await fetch(`${API_URL}/contact`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            formMessage.className = 'form-message success';
-            formMessage.innerHTML = '<i class="fas fa-check-circle"></i> ' + result.message;
-            form.reset();
-        } else {
-            formMessage.className = 'form-message error';
-            formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + (result.message || 'Something went wrong!');
-        }
-    } catch (error) {
-        console.error('Error sending message:', error);
-        formMessage.className = 'form-message error';
-        formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not connect to server!';
-    } finally {
-        // Re-enable button
-        submitButton.disabled = false;
-        submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        
-        // Clear message after 5 seconds
-        setTimeout(() => {
-            formMessage.className = '';
-            formMessage.innerHTML = '';
-        }, 5000);
-    }
-}
-
 // ========== SMOOTH SCROLLING ==========
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -335,32 +234,72 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ========== INITIALIZE EVERYTHING ON PAGE LOAD ==========
+// ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', () => {
-    // Load projects from database
-    loadProjects();
-    
-    // Animate skill bars when they come into view
-    setTimeout(() => {
-        animateSkillBars();
-    }, 500);
-    
-    // Setup scroll reveal
+    displayProjects();
+    animateSkillBars();
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
     
-    // Setup contact form handler
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', handleContactSubmit);
     }
 });
 
-// ========== PARALLAX EFFECT ON HERO ==========
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+// ========== PARTICLE BACKGROUND ==========
+const canvas = document.getElementById('particleCanvas');
+if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
-});
+    
+    function createParticles() {
+        const particleCount = 80;
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.3,
+                speedY: (Math.random() - 0.5) * 0.3,
+                opacity: Math.random() * 0.4 + 0.1
+            });
+        }
+    }
+    
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+            
+            if (particle.x < 0) particle.x = canvas.width;
+            if (particle.x > canvas.width) particle.x = 0;
+            if (particle.y < 0) particle.y = canvas.height;
+            if (particle.y > canvas.height) particle.y = 0;
+            
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(102, 126, 234, ${particle.opacity})`;
+            ctx.fill();
+        });
+        
+        requestAnimationFrame(animateParticles);
+    }
+    
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        particles = [];
+        createParticles();
+    });
+    
+    resizeCanvas();
+    createParticles();
+    animateParticles();
+}
