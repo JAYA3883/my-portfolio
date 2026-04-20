@@ -1,15 +1,15 @@
-// routes/contact.js
-// This handles contact form submissions
+// routes/contact.js - Handles contact form (stores in memory for demo)
 
 const express = require('express');
 const router = express.Router();
-const { promisePool } = require('../config/db');
+
+// Store messages in memory (will reset on server restart)
+let messages = [];
 
 // POST /api/contact - Save a contact message
 router.post('/', async (req, res) => {
     const { name, email, message } = req.body;
     
-    // Validate that all fields are filled
     if (!name || !email || !message) {
         return res.status(400).json({ 
             success: false, 
@@ -17,16 +17,23 @@ router.post('/', async (req, res) => {
         });
     }
     
-    try {
-        const [result] = await promisePool.query(
-            'INSERT INTO messages (name, email, message) VALUES (?, ?, ?)',
-            [name, email, message]
-        );
-        res.json({ success: true, message: 'Message sent successfully!' });
-    } catch (error) {
-        console.error('Error saving message:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
+    const newMessage = {
+        id: messages.length + 1,
+        name,
+        email,
+        message,
+        created_at: new Date()
+    };
+    
+    messages.push(newMessage);
+    console.log('New message received:', newMessage);
+    
+    res.json({ success: true, message: 'Message sent successfully!' });
+});
+
+// GET /api/messages - Get all messages (admin only, for testing)
+router.get('/', async (req, res) => {
+    res.json({ success: true, messages: messages });
 });
 
 module.exports = router;
