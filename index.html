@@ -3,204 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JAYA JAYANTI | Full-Stack Developer & Creative Technologist</title>
+    <title>Jaya Jayanti | Digital Experience Designer</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+    <!-- 3D Cursor Trail -->
+    <div class="cursor-glow"></div>
+    <div class="cursor-trail"></div>
 
-    <!-- Navigation Bar -->
+    <!-- Animated Background Grid -->
+    <div class="grid-background"></div>
+
+    <!-- Navigation -->
     <nav>
-        <div class="container">
-            <div class="nav-brand">
-                <span class="brand-icon">🚀</span>
-                <span>JAYA JAYANTI</span>
+        <div class="nav-container">
+            <div class="logo">
+                <svg class="logo-svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect x="10" y="10" width="20" height="20" fill="#a855f7" opacity="0.8"/>
+                    <circle cx="20" cy="20" r="8" fill="#0a0a0a"/>
+                    <path d="M20 12 L20 28 M12 20 L28 20" stroke="#a855f7" stroke-width="2"/>
+                </svg>
+                <span>JAYA</span>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="menu-btn">
-                <i class="fas fa-bars"></i>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#work" class="nav-link">Work</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#connect" class="nav-link">Connect</a>
+            </div>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section with Animated Background -->
+    <!-- Hero Section with Multiple Graphics -->
     <section id="home" class="hero">
-        <canvas id="particleCanvas"></canvas>
-        <div class="container">
-            <div class="hero-content">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-left">
+                <div class="scroll-indicator">
+                    <span>SCROLL</span>
+                    <div class="scroll-line"></div>
+                </div>
                 <div class="hero-badge">
-                    <span class="badge-icon">✨</span>
-                    <span>Available for work</span>
+                    <span class="badge-dot"></span>
+                    <span>OPEN FOR OPPORTUNITIES</span>
                 </div>
-                <h1 class="glow-text">Hi, I'm JAYA <span class="highlight"></span></h1>
-                <h2>That Leave a Mark</h2>
-                <div class="typed-container">
-                    <p>I am <span id="typed-text"></span><span class="cursor-blink">|</span></p>
+                <h1 class="glitch-text" data-text="JAYA JAYANTI">JAYA JAYANTI</h1>
+                <div class="typed-wrapper">
+                    <span class="typed-prefix">I'm a</span>
+                    <span id="typed-text"></span>
+                    <span class="typed-cursor">|</span>
                 </div>
+                <p class="hero-desc">Crafting digital experiences that blend <span class="gradient-text">creativity</span> with <span class="gradient-text">functionality</span></p>
                 <div class="hero-buttons">
-                    <a href="#projects" class="btn btn-primary">
-                        <i class="fas fa-arrow-down"></i> View My Work
+                    <a href="#work" class="btn-primary">
+                        Explore Work <i class="fas fa-arrow-right"></i>
+                        <span class="btn-bg"></span>
                     </a>
-                    <a href="#contact" class="btn btn-outline">
-                        <i class="fas fa-paper-plane"></i> Hire Me
+                    <a href="#connect" class="btn-outline">
+                        <i class="fas fa-paper-plane"></i> Contact Me
                     </a>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat">
-                        <h3>2+</h3>
-                        <p>Years Experience</p>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="5">0</div>
+                        <div class="stat-label">Projects</div>
                     </div>
-                    <div class="stat">
-                        <h3>15+</h3>
-                        <p>Projects Completed</p>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="3">0</div>
+                        <div class="stat-label">Technologies</div>
                     </div>
-                    <div class="stat">
-                        <h3>10+</h3>
-                        <p>Happy Clients</p>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="100">0</div>
+                        <div class="stat-label">Commitment %</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="orb-canvas-container">
+                    <canvas id="orbCanvas"></canvas>
+                </div>
+                <div class="floating-elements">
+                    <div class="float-icon icon-1">
+                        <i class="fab fa-js"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-2">
+                        <i class="fab fa-node-js"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-3">
+                        <i class="fas fa-database"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-4">
+                        <i class="fab fa-react"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-5">
+                        <i class="fab fa-github"></i>
+                        <div class="icon-pulse"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="scroll-indicator">
-            <div class="mouse"></div>
-            <p>Scroll Down</p>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">What I Do</span>
-                <h2 class="section-title">My <span class="highlight">Skills</span></h2>
-                <p class="section-subtitle">Technologies and tools I work with</p>
-            </div>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fab fa-js"></i></div>
-                    <h3>JavaScript/Node.js</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="85"></div>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fab fa-python"></i></div>
-                    <h3>Python</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="80"></div>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-database"></i></div>
-                    <h3>MySQL/PostgreSQL</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="75"></div>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fab fa-react"></i></div>
-                    <h3>React.js</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="70"></div>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fab fa-html5"></i></div>
-                    <h3>HTML/CSS</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="90"></div>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
-                    <h3>Git/GitHub</h3>
-                    <div class="skill-bar">
-                        <div class="skill-progress" data-progress="85"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            </svg>
         </div>
     </section>
 
-    <!-- Projects Section with Filter -->
-    <section id="projects" class="projects">
+    <!-- Work Section with 3D Cards -->
+    <section id="work" class="work">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">My Portfolio</span>
-                <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
-                <p class="section-subtitle">Some of my best work</p>
-            </div>
-            <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="web">Web Apps</button>
-                <button class="filter-btn" data-filter="backend">Backend</button>
-                <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+                <span class="section-badge">PORTFOLIO</span>
+                <h2>Featured <span class="gradient-text">Projects</span></h2>
+                <div class="section-decoration">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
             <div class="projects-grid" id="projectsGrid">
                 <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Loading amazing projects...</p>
+                    <div class="loader">
+                        <div class="loader-circle"></div>
+                        <div class="loader-circle"></div>
+                        <div class="loader-circle"></div>
+                    </div>
+                    <span>Loading projects...</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section with 3D Card -->
-    <section id="contact" class="contact">
+    <!-- Skills Section with Animated Bars -->
+    <section id="skills" class="skills">
         <div class="container">
-            <div class="contact-wrapper">
-                <div class="contact-info">
-                    <div class="section-header">
-                        <span class="section-tag">Get In Touch</span>
-                        <h2 class="section-title">Let's Work <span class="highlight">Together</span></h2>
+            <div class="section-header">
+                <span class="section-badge">EXPERTISE</span>
+                <h2>Technical <span class="gradient-text">Skills</span></h2>
+                <div class="section-decoration">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="skills-wrapper">
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fab fa-js"></i>
+                        <span>JavaScript</span>
+                        <span class="skill-percent">85%</span>
                     </div>
-                    <p class="contact-desc">Have a project in mind? I'd love to hear about it. Let's create something amazing!</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="85"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fab fa-node-js"></i>
+                        <span>Node.js</span>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="75"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fas fa-database"></i>
+                        <span>MySQL</span>
+                        <span class="skill-percent">70%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="70"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5/CSS3</span>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="90"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fab fa-git-alt"></i>
+                        <span>Git & GitHub</span>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fas fa-code-branch"></i>
+                        <span>REST APIs</span>
+                        <span class="skill-percent">65%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="65"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section with 3D Form -->
+    <section id="connect" class="connect">
+        <div class="container">
+            <div class="connect-wrapper">
+                <div class="connect-left">
+                    <div class="section-header">
+                        <span class="section-badge">GET IN TOUCH</span>
+                        <h2>Let's Create<br>Something <span class="gradient-text">Amazing</span></h2>
+                    </div>
+                    <div class="connect-info">
+                        <div class="info-card">
+                            <i class="fas fa-map-marker-alt"></i>
                             <div>
-                                <h4>Email Me</h4>
-                                <p>jayajayanti3883@gmail.com</p>
+                                <h4>Location</h4>
+                                <p>India</p>
                             </div>
                         </div>
-                        <div class="contact-item">
+                        <div class="info-card">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>jaya.jayanti@example.com</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
                             <i class="fab fa-github"></i>
                             <div>
                                 <h4>GitHub</h4>
-                                 <p>github.com/JAYA3883</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fab fa-linkedin"></i>
-                            <div>
-                                <h4>LinkedIn</h4>
-                                <p>linkedin.com/in/jaya-jayanti03</p>
+                                <p>github.com/JAYA3883</p>
                             </div>
                         </div>
                     </div>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
-                <div class="contact-form-container">
-                    <form id="contactForm">
+                <div class="connect-right">
+                    <form id="contactForm" class="glass-form">
                         <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <input type="text" id="name" placeholder="Your Name" required>
+                            <i class="fas fa-user"></i>
                         </div>
                         <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <input type="email" id="email" placeholder="Your Email" required>
+                            <i class="fas fa-envelope"></i>
                         </div>
                         <div class="form-group">
-                            <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                            <textarea id="message" rows="5" placeholder="Your Message"></textarea>
+                            <i class="fas fa-comment"></i>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-full">
-                            <i class="fas fa-paper-plane"></i> Send Message
+                        <button type="submit" class="btn-submit">
+                            Send Message <i class="fas fa-paper-plane"></i>
+                            <span class="btn-ripple"></span>
                         </button>
                         <div id="formMessage" class="form-message"></div>
                     </form>
@@ -212,20 +288,23 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <h3>JAYA JAYANTI</h3>
-                    <p>Full-Stack Developer</p>
+            <div class="footer-grid">
+                <div class="footer-logo">
+                    <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+                        <rect x="10" y="10" width="20" height="20" fill="#a855f7" opacity="0.8"/>
+                        <circle cx="20" cy="20" r="8" fill="#0a0a0a"/>
+                        <path d="M20 12 L20 28 M12 20 L28 20" stroke="#a855f7" stroke-width="2"/>
+                    </svg>
+                    <span>JAYA JAYANTI</span>
                 </div>
-                <div class="footer-social">
-    <a href="https://github.com/JAYA3883" target="_blank"><i class="fab fa-github"></i></a>
-    <a href="https://linkedin.com/in/jayajayanti" target="_blank"><i class="fab fa-linkedin"></i></a>
-    <a href="https://twitter.com/jayajayanti" target="_blank"><i class="fab fa-twitter"></i></a>
-    <a href="https://instagram.com/jayajayanti" target="_blank"><i class="fab fa-instagram"></i></a>
-</div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 JAYA JAYANTI. Built with <i class="fas fa-heart"></i> using Node.js, Express & MySQL</p>
+                <div class="footer-copyright">
+                    <p>© 2025 All rights reserved. Built with <i class="fas fa-heart"></i> using Node.js & MySQL</p>
+                </div>
+                <div class="footer-backtop">
+                    <a href="#home" class="backtop-btn">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>

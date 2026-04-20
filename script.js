@@ -1,134 +1,136 @@
-// script.js - Complete Enhanced Portfolio with all features
+// Graphics-Rich Portfolio Effects
 
-const API_URL = 'http://localhost:5000/api';
-
-// ========== CUSTOM CURSOR ==========
-const cursor = document.querySelector('.cursor');
-const cursorFollower = document.querySelector('.cursor-follower');
-
-if (cursor && cursorFollower) {
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-        
-        setTimeout(() => {
-            cursorFollower.style.left = e.clientX + 'px';
-            cursorFollower.style.top = e.clientY + 'px';
-        }, 80);
-    });
+// ========== 3D ORB CANVAS ==========
+const orbCanvas = document.getElementById('orbCanvas');
+if (orbCanvas) {
+    const ctx = orbCanvas.getContext('2d');
+    let orbWidth, orbHeight;
+    let time = 0;
     
-    document.querySelectorAll('a, button, .btn, .project-card').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'scale(2)';
-            cursorFollower.style.transform = 'scale(1.5)';
-        });
-        el.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'scale(1)';
-            cursorFollower.style.transform = 'scale(1)';
-        });
-    });
-}
-
-// ========== MOBILE MENU TOGGLE ==========
-const menuBtn = document.querySelector('.menu-btn');
-const navLinks = document.querySelector('.nav-links');
-
-if (menuBtn) {
-    menuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-    });
-}
-
-// Close menu when clicking a link
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-    });
-});
-
-// ========== ACTIVE NAVIGATION LINK ==========
-const sections = document.querySelectorAll('section');
-const navItems = document.querySelectorAll('.nav-links a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 200) {
-            current = section.getAttribute('id');
-        }
-    });
-    
-    navItems.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// ========== PARTICLE BACKGROUND ==========
-const canvas = document.getElementById('particleCanvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+    function resizeOrb() {
+        const rect = orbCanvas.parentElement.getBoundingClientRect();
+        orbCanvas.width = rect.width;
+        orbCanvas.height = rect.height;
+        orbWidth = rect.width;
+        orbHeight = rect.height;
     }
     
-    function createParticles() {
-        const particleCount = 100;
+    function drawOrb() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, orbCanvas.width, orbCanvas.height);
+        
+        const centerX = orbCanvas.width / 2;
+        const centerY = orbCanvas.height / 2;
+        const radius = Math.min(orbCanvas.width, orbCanvas.height) * 0.3;
+        
+        // Draw glowing orb
+        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+        gradient.addColorStop(0, 'rgba(168, 85, 247, 0.8)');
+        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.3)');
+        gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+        
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        
+        // Draw rotating particles
+        const particleCount = 50;
         for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                opacity: Math.random() * 0.5 + 0.2
-            });
-        }
-    }
-    
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            particle.x += particle.speedX;
-            particle.y += particle.speedY;
-            
-            if (particle.x < 0) particle.x = canvas.width;
-            if (particle.x > canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = canvas.height;
-            if (particle.y > canvas.height) particle.y = 0;
+            const angle = (i / particleCount) * Math.PI * 2 + time;
+            const particleRadius = radius * 0.8;
+            const x = centerX + Math.cos(angle) * particleRadius;
+            const y = centerY + Math.sin(angle) * particleRadius;
             
             ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(102, 126, 234, ${particle.opacity})`;
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + Math.sin(time * 2 + i) * 0.3})`;
             ctx.fill();
-        });
+        }
         
-        requestAnimationFrame(animateParticles);
+        time += 0.02;
+        requestAnimationFrame(drawOrb);
     }
     
     window.addEventListener('resize', () => {
-        resizeCanvas();
-        particles = [];
-        createParticles();
+        resizeOrb();
     });
     
-    resizeCanvas();
-    createParticles();
-    animateParticles();
+    resizeOrb();
+    drawOrb();
+}
+
+// ========== CUSTOM CURSOR ==========
+const cursorGlow = document.querySelector('.cursor-glow');
+const cursorTrail = document.querySelector('.cursor-trail');
+
+if (cursorGlow && cursorTrail) {
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        cursorGlow.style.transform = `translate(${mouseX - 15}px, ${mouseY - 15}px)`;
+    });
+    
+    function animateTrail() {
+        trailX += (mouseX - trailX) * 0.2;
+        trailY += (mouseY - trailY) * 0.2;
+        cursorTrail.style.transform = `translate(${trailX - 4}px, ${trailY - 4}px)`;
+        requestAnimationFrame(animateTrail);
+    }
+    
+    animateTrail();
+    
+    document.querySelectorAll('a, button, .btn-primary, .btn-outline, .project-card').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorGlow.style.transform = `scale(1.5)`;
+            cursorGlow.style.background = `radial-gradient(circle, rgba(168, 85, 247, 0.6), transparent)`;
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorGlow.style.transform = `scale(1)`;
+            cursorGlow.style.background = `radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent)`;
+        });
+    });
+}
+
+// ========== COUNTUP ANIMATION ==========
+function animateNumbers() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-count'));
+        let current = 0;
+        const increment = target / 50;
+        const updateNumber = () => {
+            current += increment;
+            if (current < target) {
+                stat.textContent = Math.floor(current);
+                requestAnimationFrame(updateNumber);
+            } else {
+                stat.textContent = target;
+            }
+        };
+        updateNumber();
+    });
+}
+
+// ========== SKILL BARS ANIMATION ==========
+function animateSkillBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    progressBars.forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        setTimeout(() => {
+            bar.style.width = width + '%';
+        }, 100);
+    });
 }
 
 // ========== TYPING ANIMATION ==========
 const typedElement = document.getElementById('typed-text');
 if (typedElement) {
-    const words = ['Full-Stack Developer', 'Creative Coder', 'Problem Solver', 'Tech Enthusiast'];
+    const words = ['Creative Developer', 'Problem Solver', 'Tech Enthusiast', 'Web Builder'];
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -162,205 +164,143 @@ if (typedElement) {
     typeEffect();
 }
 
-// ========== SKILL BARS ANIMATION ==========
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress');
-    skillBars.forEach(bar => {
-        const progress = bar.getAttribute('data-progress');
-        bar.style.width = progress + '%';
-    });
-}
+// ========== SCROLL REVEAL ==========
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
 
-// ========== SCROLL REVEAL ANIMATION ==========
-function revealOnScroll() {
-    const reveals = document.querySelectorAll('.skill-card, .project-card, .contact-item');
-    
-    reveals.forEach(element => {
-        const windowHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
         }
     });
-}
+}, observerOptions);
 
-// Set initial styles for scroll reveal
-document.querySelectorAll('.skill-card, .project-card, .contact-item').forEach(el => {
+document.querySelectorAll('.project-card, .skill-category, .info-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'all 0.6s ease-out';
+    observer.observe(el);
 });
 
-// ========== PROJECT FILTERS ==========
-let allProjects = [];
-
-function setupFilters(projects) {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    allProjects = projects;
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const filter = btn.getAttribute('data-filter');
-            
-            // For demo purposes, show all projects
-            // You can enhance this to filter by category later
-            displayProjects(allProjects);
-        });
-    });
-}
-
-// ========== LOAD PROJECTS FROM DATABASE ==========
-async function loadProjects() {
-    const projectsGrid = document.getElementById('projectsGrid');
-    
-    try {
-        const response = await fetch(`${API_URL}/projects`);
-        const data = await response.json();
-        
-        if (data.success && data.projects.length > 0) {
-            displayProjects(data.projects);
-            setupFilters(data.projects);
-        } else {
-            projectsGrid.innerHTML = '<div class="loading">✨ No projects yet. Add some to your database!</div>';
-        }
-    } catch (error) {
-        console.error('Error loading projects:', error);
-        projectsGrid.innerHTML = '<div class="loading">⚠️ Error loading projects. Make sure your backend is running!</div>';
+// ========== LOAD PROJECTS ==========
+const projects = [
+    {
+        title: "E-Commerce Platform",
+        description: "Full-featured online store with cart and payment integration",
+        image: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=500",
+        link: "#"
+    },
+    {
+        title: "Social Dashboard",
+        description: "Analytics dashboard for social media metrics",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500",
+        link: "#"
+    },
+    {
+        title: "Task Manager App",
+        description: "Productivity app with real-time updates",
+        image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500",
+        link: "#"
+    },
+    {
+        title: "Weather App",
+        description: "Real-time weather data using OpenWeather API",
+        image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=500",
+        link: "#"
+    },
+    {
+        title: "Blog Platform",
+        description: "Full-featured blog with comments and categories",
+        image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500",
+        link: "#"
+    },
+    {
+        title: "Portfolio 2025",
+        description: "Modern portfolio with 3D effects and animations",
+        image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
+        link: "#"
     }
-}
+];
 
-function displayProjects(projects) {
+function displayProjects() {
     const projectsGrid = document.getElementById('projectsGrid');
+    if (!projectsGrid) return;
+    
     projectsGrid.innerHTML = '';
     
     projects.forEach((project, index) => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
-        projectCard.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s backwards`;
-        projectCard.innerHTML = `
-            <img src="${project.image_url || 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500'}" alt="${project.title}">
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.innerHTML = `
+            <img src="${project.image}" alt="${project.title}">
             <h3>${project.title}</h3>
-            <p>${project.description || 'An amazing project built with modern technologies.'}</p>
-            <a href="${project.project_url || '#'}" class="project-link" target="_blank">
+            <p>${project.description}</p>
+            <a href="${project.link}" class="project-link" target="_blank">
                 View Project <i class="fas fa-arrow-right"></i>
             </a>
         `;
-        projectsGrid.appendChild(projectCard);
+        projectsGrid.appendChild(card);
     });
 }
 
-// ========== HANDLE CONTACT FORM SUBMISSION ==========
+// ========== CONTACT FORM ==========
 async function handleContactSubmit(event) {
     event.preventDefault();
     
-    const form = event.target;
-    const submitButton = form.querySelector('button[type="submit"]');
     const formMessage = document.getElementById('formMessage');
+    const submitBtn = document.querySelector('.btn-submit');
     
-    // Get form data
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    };
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
     
-    // Validate
-    if (!formData.name || !formData.email || !formData.message) {
-        formMessage.className = 'form-message error';
-        formMessage.textContent = 'Please fill in all fields!';
-        setTimeout(() => {
-            formMessage.className = '';
-            formMessage.textContent = '';
-        }, 3000);
-        return;
-    }
-    
-    // Disable button while sending
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    
-    try {
-        const response = await fetch(`${API_URL}/contact`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
+    setTimeout(() => {
+        formMessage.className = 'form-message success';
+        formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Message sent successfully!';
+        document.getElementById('contactForm').reset();
         
-        const result = await response.json();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
         
-        if (result.success) {
-            formMessage.className = 'form-message success';
-            formMessage.innerHTML = '<i class="fas fa-check-circle"></i> ' + result.message;
-            form.reset();
-        } else {
-            formMessage.className = 'form-message error';
-            formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + (result.message || 'Something went wrong!');
-        }
-    } catch (error) {
-        console.error('Error sending message:', error);
-        formMessage.className = 'form-message error';
-        formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Could not connect to server!';
-    } finally {
-        // Re-enable button
-        submitButton.disabled = false;
-        submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        
-        // Clear message after 5 seconds
         setTimeout(() => {
             formMessage.className = '';
             formMessage.innerHTML = '';
         }, 5000);
-    }
+    }, 1500);
 }
 
-// ========== SMOOTH SCROLLING ==========
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// ========== INITIALIZE EVERYTHING ON PAGE LOAD ==========
+// ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', () => {
-    // Load projects from database
-    loadProjects();
+    displayProjects();
+    animateSkillBars();
+    animateNumbers();
     
-    // Animate skill bars when they come into view
-    setTimeout(() => {
-        animateSkillBars();
-    }, 500);
-    
-    // Setup scroll reveal
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll();
-    
-    // Setup contact form handler
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', handleContactSubmit);
     }
 });
 
-// ========== PARALLAX EFFECT ON HERO ==========
+// ========== SMOOTH SCROLL ==========
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// ========== PARALLAX EFFECT ==========
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+    const floatingElements = document.querySelector('.floating-elements');
+    if (floatingElements) {
+        floatingElements.style.transform = `translateY(${scrolled * 0.3}px)`;
     }
 });

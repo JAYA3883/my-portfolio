@@ -1,160 +1,136 @@
-// script.js - Portfolio with hardcoded projects (no database needed)
+// Graphics-Rich Portfolio Effects
 
-// ========== PROJECTS (Hardcoded - No Database Required) ==========
-const projects = [
-    {
-        title: "My Portfolio Website",
-        description: "A beautiful personal portfolio website built with Node.js, Express, and modern HTML/CSS.",
-        image_url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
-        project_url: "https://github.com/JAYA3883/my-portfolio"
-    },
-    {
-        title: "Weather App",
-        description: "Check weather in any city using OpenWeatherMap API. Built with JavaScript and API integration.",
-        image_url: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=500",
-        project_url: "https://github.com/JAYA3883/weather-app"
-    },
-    {
-        title: "Task Manager",
-        description: "Keep track of your daily tasks with this simple and elegant task management app.",
-        image_url: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500",
-        project_url: "https://github.com/JAYA3883/task-manager"
-    },
-    {
-        title: "E-commerce Dashboard",
-        description: "Admin dashboard for managing products, orders, and customers.",
-        image_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500",
-        project_url: "https://github.com/JAYA3883/ecommerce-dashboard"
-    },
-    {
-        title: "Chat Application",
-        description: "Real-time chat app using WebSockets. Perfect for team communication.",
-        image_url: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=500",
-        project_url: "https://github.com/JAYA3883/chat-app"
-    },
-    {
-        title: "Blog Platform",
-        description: "Full-featured blog with comments, categories, and user authentication.",
-        image_url: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500",
-        project_url: "https://github.com/JAYA3883/blog-platform"
+// ========== 3D ORB CANVAS ==========
+const orbCanvas = document.getElementById('orbCanvas');
+if (orbCanvas) {
+    const ctx = orbCanvas.getContext('2d');
+    let orbWidth, orbHeight;
+    let time = 0;
+    
+    function resizeOrb() {
+        const rect = orbCanvas.parentElement.getBoundingClientRect();
+        orbCanvas.width = rect.width;
+        orbCanvas.height = rect.height;
+        orbWidth = rect.width;
+        orbHeight = rect.height;
     }
-];
-
-// ========== DISPLAY PROJECTS ==========
-function displayProjects() {
-    const projectsGrid = document.getElementById('projectsGrid');
     
-    if (!projectsGrid) return;
+    function drawOrb() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, orbCanvas.width, orbCanvas.height);
+        
+        const centerX = orbCanvas.width / 2;
+        const centerY = orbCanvas.height / 2;
+        const radius = Math.min(orbCanvas.width, orbCanvas.height) * 0.3;
+        
+        // Draw glowing orb
+        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+        gradient.addColorStop(0, 'rgba(168, 85, 247, 0.8)');
+        gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.3)');
+        gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+        
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        
+        // Draw rotating particles
+        const particleCount = 50;
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (i / particleCount) * Math.PI * 2 + time;
+            const particleRadius = radius * 0.8;
+            const x = centerX + Math.cos(angle) * particleRadius;
+            const y = centerY + Math.sin(angle) * particleRadius;
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.5 + Math.sin(time * 2 + i) * 0.3})`;
+            ctx.fill();
+        }
+        
+        time += 0.02;
+        requestAnimationFrame(drawOrb);
+    }
     
-    projectsGrid.innerHTML = '';
-    
-    projects.forEach((project, index) => {
-        const projectCard = document.createElement('div');
-        projectCard.className = 'project-card';
-        projectCard.style.animation = `fadeInUp 0.6s ease-out ${index * 0.1}s backwards`;
-        projectCard.innerHTML = `
-            <img src="${project.image_url}" alt="${project.title}">
-            <h3>${project.title}</h3>
-            <p>${project.description}</p>
-            <a href="${project.project_url}" class="project-link" target="_blank">
-                View Project <i class="fas fa-arrow-right"></i>
-            </a>
-        `;
-        projectsGrid.appendChild(projectCard);
+    window.addEventListener('resize', () => {
+        resizeOrb();
     });
-}
-
-// ========== HANDLE CONTACT FORM (Stores in localStorage for now) ==========
-async function handleContactSubmit(event) {
-    event.preventDefault();
     
-    const form = event.target;
-    const submitButton = form.querySelector('button[type="submit"]');
-    const formMessage = document.getElementById('formMessage');
-    
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value,
-        date: new Date().toLocaleString()
-    };
-    
-    // Validate
-    if (!formData.name || !formData.email || !formData.message) {
-        showMessage(formMessage, 'Please fill in all fields!', 'error');
-        return;
-    }
-    
-    // Disable button
-    submitButton.disabled = true;
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    
-    // Simulate sending (store in localStorage for demo)
-    setTimeout(() => {
-        // Save to localStorage
-        let messages = JSON.parse(localStorage.getItem('portfolio_messages') || '[]');
-        messages.push(formData);
-        localStorage.setItem('portfolio_messages', JSON.stringify(messages));
-        
-        showMessage(formMessage, 'Message sent successfully! I will get back to you soon.', 'success');
-        form.reset();
-        
-        submitButton.disabled = false;
-        submitButton.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-    }, 1000);
-}
-
-function showMessage(element, message, type) {
-    element.className = `form-message ${type}`;
-    element.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
-    
-    setTimeout(() => {
-        element.className = '';
-        element.innerHTML = '';
-    }, 5000);
+    resizeOrb();
+    drawOrb();
 }
 
 // ========== CUSTOM CURSOR ==========
-const cursor = document.querySelector('.cursor');
-const cursorFollower = document.querySelector('.cursor-follower');
+const cursorGlow = document.querySelector('.cursor-glow');
+const cursorTrail = document.querySelector('.cursor-trail');
 
-if (cursor && cursorFollower) {
+if (cursorGlow && cursorTrail) {
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+    
     document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         
-        setTimeout(() => {
-            cursorFollower.style.left = e.clientX + 'px';
-            cursorFollower.style.top = e.clientY + 'px';
-        }, 80);
+        cursorGlow.style.transform = `translate(${mouseX - 15}px, ${mouseY - 15}px)`;
     });
     
-    document.querySelectorAll('a, button, .btn, .project-card').forEach(el => {
+    function animateTrail() {
+        trailX += (mouseX - trailX) * 0.2;
+        trailY += (mouseY - trailY) * 0.2;
+        cursorTrail.style.transform = `translate(${trailX - 4}px, ${trailY - 4}px)`;
+        requestAnimationFrame(animateTrail);
+    }
+    
+    animateTrail();
+    
+    document.querySelectorAll('a, button, .btn-primary, .btn-outline, .project-card').forEach(el => {
         el.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'scale(2)';
-            cursorFollower.style.transform = 'scale(1.5)';
+            cursorGlow.style.transform = `scale(1.5)`;
+            cursorGlow.style.background = `radial-gradient(circle, rgba(168, 85, 247, 0.6), transparent)`;
         });
         el.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'scale(1)';
-            cursorFollower.style.transform = 'scale(1)';
+            cursorGlow.style.transform = `scale(1)`;
+            cursorGlow.style.background = `radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent)`;
         });
     });
 }
 
-// ========== MOBILE MENU ==========
-const menuBtn = document.querySelector('.menu-btn');
-const navLinks = document.querySelector('.nav-links');
+// ========== COUNTUP ANIMATION ==========
+function animateNumbers() {
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-count'));
+        let current = 0;
+        const increment = target / 50;
+        const updateNumber = () => {
+            current += increment;
+            if (current < target) {
+                stat.textContent = Math.floor(current);
+                requestAnimationFrame(updateNumber);
+            } else {
+                stat.textContent = target;
+            }
+        };
+        updateNumber();
+    });
+}
 
-if (menuBtn) {
-    menuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
+// ========== SKILL BARS ANIMATION ==========
+function animateSkillBars() {
+    const progressBars = document.querySelectorAll('.progress-fill');
+    progressBars.forEach(bar => {
+        const width = bar.getAttribute('data-width');
+        setTimeout(() => {
+            bar.style.width = width + '%';
+        }, 100);
     });
 }
 
 // ========== TYPING ANIMATION ==========
 const typedElement = document.getElementById('typed-text');
 if (typedElement) {
-    const words = ['Full-Stack Developer', 'Creative Coder', 'Problem Solver', 'Tech Enthusiast'];
+    const words = ['Creative Developer', 'Problem Solver', 'Tech Enthusiast', 'Web Builder'];
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -188,58 +164,120 @@ if (typedElement) {
     typeEffect();
 }
 
-// ========== SKILL BARS ==========
-function animateSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-progress');
-    skillBars.forEach(bar => {
-        const progress = bar.getAttribute('data-progress');
-        bar.style.width = progress + '%';
-    });
-}
-
 // ========== SCROLL REVEAL ==========
-function revealOnScroll() {
-    const reveals = document.querySelectorAll('.skill-card, .project-card, .contact-item');
-    
-    reveals.forEach(element => {
-        const windowHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < windowHeight - elementVisible) {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
+const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
         }
     });
-}
+}, observerOptions);
 
-// Set initial styles for scroll reveal
-document.querySelectorAll('.skill-card, .project-card, .contact-item').forEach(el => {
+document.querySelectorAll('.project-card, .skill-category, .info-card').forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(30px)';
     el.style.transition = 'all 0.6s ease-out';
+    observer.observe(el);
 });
 
-// ========== SMOOTH SCROLLING ==========
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+// ========== LOAD PROJECTS ==========
+const projects = [
+    {
+        title: "E-Commerce Platform",
+        description: "Full-featured online store with cart and payment integration",
+        image: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=500",
+        link: "#"
+    },
+    {
+        title: "Social Dashboard",
+        description: "Analytics dashboard for social media metrics",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500",
+        link: "#"
+    },
+    {
+        title: "Task Manager App",
+        description: "Productivity app with real-time updates",
+        image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=500",
+        link: "#"
+    },
+    {
+        title: "Weather App",
+        description: "Real-time weather data using OpenWeather API",
+        image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=500",
+        link: "#"
+    },
+    {
+        title: "Blog Platform",
+        description: "Full-featured blog with comments and categories",
+        image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=500",
+        link: "#"
+    },
+    {
+        title: "Portfolio 2025",
+        description: "Modern portfolio with 3D effects and animations",
+        image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500",
+        link: "#"
+    }
+];
+
+function displayProjects() {
+    const projectsGrid = document.getElementById('projectsGrid');
+    if (!projectsGrid) return;
+    
+    projectsGrid.innerHTML = '';
+    
+    projects.forEach((project, index) => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.innerHTML = `
+            <img src="${project.image}" alt="${project.title}">
+            <h3>${project.title}</h3>
+            <p>${project.description}</p>
+            <a href="${project.link}" class="project-link" target="_blank">
+                View Project <i class="fas fa-arrow-right"></i>
+            </a>
+        `;
+        projectsGrid.appendChild(card);
     });
-});
+}
+
+// ========== CONTACT FORM ==========
+async function handleContactSubmit(event) {
+    event.preventDefault();
+    
+    const formMessage = document.getElementById('formMessage');
+    const submitBtn = document.querySelector('.btn-submit');
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+    
+    setTimeout(() => {
+        formMessage.className = 'form-message success';
+        formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Message sent successfully!';
+        document.getElementById('contactForm').reset();
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send Message <i class="fas fa-paper-plane"></i>';
+        
+        setTimeout(() => {
+            formMessage.className = '';
+            formMessage.innerHTML = '';
+        }, 5000);
+    }, 1500);
+}
 
 // ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', () => {
     displayProjects();
     animateSkillBars();
-    window.addEventListener('scroll', revealOnScroll);
-    revealOnScroll();
+    animateNumbers();
     
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
@@ -247,57 +285,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ========== PARTICLE BACKGROUND ==========
-// Enhanced Starry Background with Twinkling Stars
-const canvas = document.getElementById('particleCanvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-    
-    function createStars() {
-        const starCount = 200;
-        for (let i = 0; i < starCount; i++) {
-            stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2 + 1,
-                alpha: Math.random(),
-                alphaChange: (Math.random() * 0.02) + 0.005
-            });
+// ========== SMOOTH SCROLL ==========
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }
-    
-    function animateStars() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        stars.forEach(star => {
-            // Twinkling effect
-            star.alpha += star.alphaChange;
-            if (star.alpha >= 1 || star.alpha <= 0.2) {
-                star.alphaChange *= -1;
-            }
-            
-            ctx.beginPath();
-            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
-            ctx.fill();
-        });
-        
-        requestAnimationFrame(animateStars);
-    }
-    
-    window.addEventListener('resize', () => {
-        resizeCanvas();
-        stars = [];
-        createStars();
     });
-    
-    resizeCanvas();
-    createStars();
-    animateStars();
-}
+});
+
+// ========== PARALLAX EFFECT ==========
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const floatingElements = document.querySelector('.floating-elements');
+    if (floatingElements) {
+        floatingElements.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+});

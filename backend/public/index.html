@@ -3,17 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jaya Jayanti | Digital Craftsperson</title>
+    <title>Jaya Jayanti | Digital Experience Designer</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Unique diagonal split navigation -->
+    <!-- 3D Cursor Trail -->
+    <div class="cursor-glow"></div>
+    <div class="cursor-trail"></div>
+
+    <!-- Animated Background Grid -->
+    <div class="grid-background"></div>
+
+    <!-- Navigation -->
     <nav>
         <div class="nav-container">
             <div class="logo">
-                <div class="logo-icon">✦</div>
+                <svg class="logo-svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <rect x="10" y="10" width="20" height="20" fill="#a855f7" opacity="0.8"/>
+                    <circle cx="20" cy="20" r="8" fill="#0a0a0a"/>
+                    <path d="M20 12 L20 28 M12 20 L28 20" stroke="#a855f7" stroke-width="2"/>
+                </svg>
                 <span>JAYA</span>
             </div>
             <div class="nav-links">
@@ -29,162 +40,243 @@
         </div>
     </nav>
 
-    <!-- Hero Section with Split Screen -->
+    <!-- Hero Section with Multiple Graphics -->
     <section id="home" class="hero">
-        <div class="hero-left">
-            <div class="hero-left-content">
-                <div class="status-badge">
-                    <span class="pulse-dot"></span>
-                    Available for opportunities
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-left">
+                <div class="scroll-indicator">
+                    <span>SCROLL</span>
+                    <div class="scroll-line"></div>
                 </div>
-                <h1 class="big-name">JAYA <br>JAYANTI</h1>
-                <div class="hero-tagline">
-                    <span class="tagline-line"></span>
-                    <span class="tagline-text">Digital Craftsperson</span>
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>OPEN FOR OPPORTUNITIES</span>
                 </div>
-                <div class="hero-description">
-                    I turn ideas into <span class="accent">functional, beautiful</span> web experiences.
+                <h1 class="glitch-text" data-text="JAYA JAYANTI">JAYA JAYANTI</h1>
+                <div class="typed-wrapper">
+                    <span class="typed-prefix">I'm a</span>
+                    <span id="typed-text"></span>
+                    <span class="typed-cursor">|</span>
                 </div>
-                <div class="hero-actions">
+                <p class="hero-desc">Crafting digital experiences that blend <span class="gradient-text">creativity</span> with <span class="gradient-text">functionality</span></p>
+                <div class="hero-buttons">
                     <a href="#work" class="btn-primary">
-                        View Work <i class="fas fa-arrow-right"></i>
+                        Explore Work <i class="fas fa-arrow-right"></i>
+                        <span class="btn-bg"></span>
                     </a>
-                    <a href="#connect" class="btn-secondary">
-                        Let's Talk <i class="fas fa-comment"></i>
+                    <a href="#connect" class="btn-outline">
+                        <i class="fas fa-paper-plane"></i> Contact Me
                     </a>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">2+</span>
-                        <span class="stat-label">Projects</span>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="5">0</div>
+                        <div class="stat-label">Projects</div>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">Node.js</span>
-                        <span class="stat-label">Backend</span>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="3">0</div>
+                        <div class="stat-label">Technologies</div>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">MySQL</span>
-                        <span class="stat-label">Database</span>
+                    <div class="stat-item">
+                        <div class="stat-number" data-count="100">0</div>
+                        <div class="stat-label">Commitment %</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="orb-canvas-container">
+                    <canvas id="orbCanvas"></canvas>
+                </div>
+                <div class="floating-elements">
+                    <div class="float-icon icon-1">
+                        <i class="fab fa-js"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-2">
+                        <i class="fab fa-node-js"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-3">
+                        <i class="fas fa-database"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-4">
+                        <i class="fab fa-react"></i>
+                        <div class="icon-pulse"></div>
+                    </div>
+                    <div class="float-icon icon-5">
+                        <i class="fab fa-github"></i>
+                        <div class="icon-pulse"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="hero-right">
-            <div class="hero-right-content">
-                <div class="floating-card card-1">
-                    <i class="fas fa-code"></i>
-                    <span>Clean Code</span>
-                </div>
-                <div class="floating-card card-2">
-                    <i class="fas fa-database"></i>
-                    <span>MySQL</span>
-                </div>
-                <div class="floating-card card-3">
-                    <i class="fas fa-mobile-alt"></i>
-                    <span>Responsive</span>
-                </div>
-                <div class="hero-quote">
-                    <i class="fas fa-quote-left"></i>
-                    <p>"Building things that solve real problems"</p>
-                </div>
-            </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
+            </svg>
         </div>
     </section>
 
-    <!-- Work Section - Masonry Grid -->
+    <!-- Work Section with 3D Cards -->
     <section id="work" class="work">
         <div class="container">
             <div class="section-header">
-                <span class="section-number">01</span>
-                <h2>Selected <span class="accent">Work</span></h2>
-                <div class="section-line"></div>
+                <span class="section-badge">PORTFOLIO</span>
+                <h2>Featured <span class="gradient-text">Projects</span></h2>
+                <div class="section-decoration">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
             <div class="projects-grid" id="projectsGrid">
                 <div class="loading">
-                    <div class="dot-pulse"></div>
-                    <span>Loading work...</span>
+                    <div class="loader">
+                        <div class="loader-circle"></div>
+                        <div class="loader-circle"></div>
+                        <div class="loader-circle"></div>
+                    </div>
+                    <span>Loading projects...</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section - Hexagon Style -->
+    <!-- Skills Section with Animated Bars -->
     <section id="skills" class="skills">
         <div class="container">
             <div class="section-header">
-                <span class="section-number">02</span>
-                <h2>Tech <span class="accent">Stack</span></h2>
-                <div class="section-line"></div>
+                <span class="section-badge">EXPERTISE</span>
+                <h2>Technical <span class="gradient-text">Skills</span></h2>
+                <div class="section-decoration">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-            <div class="skills-container">
+            <div class="skills-wrapper">
                 <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Languages</h3>
-                    <div class="skill-items">
-                        <span class="skill-pill">JavaScript</span>
-                        <span class="skill-pill">HTML5</span>
-                        <span class="skill-pill">CSS3</span>
+                    <div class="skill-header">
+                        <i class="fab fa-js"></i>
+                        <span>JavaScript</span>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="85"></div>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3><i class="fas fa-server"></i> Backend</h3>
-                    <div class="skill-items">
-                        <span class="skill-pill">Node.js</span>
-                        <span class="skill-pill">Express.js</span>
-                        <span class="skill-pill">REST APIs</span>
+                    <div class="skill-header">
+                        <i class="fab fa-node-js"></i>
+                        <span>Node.js</span>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="75"></div>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3><i class="fas fa-database"></i> Database</h3>
-                    <div class="skill-items">
-                        <span class="skill-pill">MySQL</span>
-                        <span class="skill-pill">PostgreSQL</span>
+                    <div class="skill-header">
+                        <i class="fas fa-database"></i>
+                        <span>MySQL</span>
+                        <span class="skill-percent">70%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="70"></div>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Tools</h3>
-                    <div class="skill-items">
-                        <span class="skill-pill">Git</span>
-                        <span class="skill-pill">GitHub</span>
-                        <span class="skill-pill">VS Code</span>
+                    <div class="skill-header">
+                        <i class="fab fa-html5"></i>
+                        <span>HTML5/CSS3</span>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="90"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fab fa-git-alt"></i>
+                        <span>Git & GitHub</span>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="80"></div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <div class="skill-header">
+                        <i class="fas fa-code-branch"></i>
+                        <span>REST APIs</span>
+                        <span class="skill-percent">65%</span>
+                    </div>
+                    <div class="skill-progress-bar">
+                        <div class="progress-fill" data-width="65"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section - Minimal -->
+    <!-- Contact Section with 3D Form -->
     <section id="connect" class="connect">
         <div class="container">
-            <div class="section-header">
-                <span class="section-number">03</span>
-                <h2>Let's <span class="accent">Connect</span></h2>
-                <div class="section-line"></div>
-            </div>
             <div class="connect-wrapper">
-                <div class="connect-info">
-                    <h3>Got a project? <br>Let's talk.</h3>
-                    <div class="connect-links">
-                        <a href="https://github.com/JAYA3883" target="_blank" class="connect-link">
-                            <i class="fab fa-github"></i>
-                            <span>github.com/JAYA3883</span>
-                        </a>
-                        <a href="#" class="connect-link">
-                            <i class="fab fa-linkedin"></i>
-                            <span>linkedin.com/in/jayajayanti</span>
-                        </a>
-                        <a href="#" class="connect-link">
+                <div class="connect-left">
+                    <div class="section-header">
+                        <span class="section-badge">GET IN TOUCH</span>
+                        <h2>Let's Create<br>Something <span class="gradient-text">Amazing</span></h2>
+                    </div>
+                    <div class="connect-info">
+                        <div class="info-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>India</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
                             <i class="fas fa-envelope"></i>
-                            <span>jaya.jayanti@example.com</span>
-                        </a>
+                            <div>
+                                <h4>Email</h4>
+                                <p>jaya.jayanti@example.com</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i class="fab fa-github"></i>
+                            <div>
+                                <h4>GitHub</h4>
+                                <p>github.com/JAYA3883</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                <div class="connect-form">
-                    <form id="contactForm">
-                        <input type="text" id="name" placeholder="Your name" required>
-                        <input type="email" id="email" placeholder="Your email" required>
-                        <textarea id="message" rows="4" placeholder="Tell me about your project..."></textarea>
+                <div class="connect-right">
+                    <form id="contactForm" class="glass-form">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Your Name" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Your Email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" rows="5" placeholder="Your Message"></textarea>
+                            <i class="fas fa-comment"></i>
+                        </div>
                         <button type="submit" class="btn-submit">
-                            Send Message <i class="fas fa-arrow-right"></i>
+                            Send Message <i class="fas fa-paper-plane"></i>
+                            <span class="btn-ripple"></span>
                         </button>
                         <div id="formMessage" class="form-message"></div>
                     </form>
@@ -196,9 +288,23 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <p>© 2025 Jaya Jayanti</p>
-                <p>Built with <i class="fas fa-heart"></i> using Node.js & MySQL</p>
+            <div class="footer-grid">
+                <div class="footer-logo">
+                    <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+                        <rect x="10" y="10" width="20" height="20" fill="#a855f7" opacity="0.8"/>
+                        <circle cx="20" cy="20" r="8" fill="#0a0a0a"/>
+                        <path d="M20 12 L20 28 M12 20 L28 20" stroke="#a855f7" stroke-width="2"/>
+                    </svg>
+                    <span>JAYA JAYANTI</span>
+                </div>
+                <div class="footer-copyright">
+                    <p>© 2025 All rights reserved. Built with <i class="fas fa-heart"></i> using Node.js & MySQL</p>
+                </div>
+                <div class="footer-backtop">
+                    <a href="#home" class="backtop-btn">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
